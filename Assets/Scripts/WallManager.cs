@@ -19,8 +19,13 @@ using UnityEngine;
 ///→調べてもどちらがいいとかはでなかった。
 ///　楽なGitDeskTopを使うことにする。
 ///
+///★背景とアイテムボックスの画像の配置。
+///
 ///★アイテムボックスの実装
-///→アイテムを取得するとアイテムがアイテムボックスに移動。
+///アイテムを取得するとアイテムがアイテムボックスに移動する。
+///アイテムを取得する。
+///→アイテムをクリックできるようにする。
+///→SetActiveで削除する。
 
 public class WallManager : MonoBehaviour
 {
@@ -67,13 +72,13 @@ public class WallManager : MonoBehaviour
                 wall.transform.localPosition = new Vector3(0, 0);
                 break;
             case WALL.Right:
-                wall.transform.localPosition = new Vector3(-1500, 0);
+                wall.transform.localPosition = new Vector3(-1000, 0);
                 break;
             case WALL.Back:
-                wall.transform.localPosition = new Vector3(-3000, 0);
+                wall.transform.localPosition = new Vector3(-2000, 0);
                 break;
             case WALL.Left:
-                wall.transform.localPosition = new Vector3(-4500, 0);
+                wall.transform.localPosition = new Vector3(-3000, 0);
                 break;
         }
     }
