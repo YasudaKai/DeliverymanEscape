@@ -7,10 +7,7 @@ public class ItemBox : MonoBehaviour
 {
     public GameObject[] boxItems;
 
-   //なぜ引数がItem.Typeのように
-   //使われているのか？？　　　　↓
-   //Typeがデータ型なので
-   //引数はTypeのみでよいのでは？？
+   
    
     public void DisplayBoxItem(Item.Type type)
     {

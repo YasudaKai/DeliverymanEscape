@@ -2,34 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Junary 15th, 2021
-///★特定のボタンを押したとき
-///Panelを動かしたい。
-///　→Panelのtransformを取得する
-///　→transform.positionで位置を変更する。
-///★Panelを左右に動かしたい。　
-///　→現在の位置をマーク変数で管理。（列挙型で）
-///　→マーク変数の値によってどこのWallの位置にするか決める
-///　
-
-///Junuary 16th, 2021
-///★Gitでのバージョン管理
-///→GitDeskTopとコマンドプロンプトでGitを操作して管理するの
-///　どちらがいいのか？
-///→調べてもどちらがいいとかはでなかった。
-///　楽なGitDeskTopを使うことにする。
-///
-///★背景とアイテムボックスの画像の配置。
-///
-///★アイテムボックスの実装
-///アイテムを取得するとアイテムがアイテムボックスに移動する。
-///アイテムを取得する。
-///→アイテムをクリックできるようにする。
-///→SetActiveで削除する。
 
 public class WallManager : MonoBehaviour
 {
     public GameObject wall;
+    public GameObject[] wallButtons;
+    public const int left = 0;
+    public const int right = 1;
+    public const int back = 2;
 
     public enum WALL
     {
@@ -38,10 +18,19 @@ public class WallManager : MonoBehaviour
         Back,
         Left,
     }
-
     WALL currentWall = WALL.Front;
 
-   
+    //ロッカーの以外にも画面をアップする
+    //場合があるかもしれないから、
+    //transform.localPositionを
+    //enum型で場合わけしておいた方がいい？
+
+    public enum ZOOM
+    {
+        
+    }
+
+
     public void OnRightButton()
     {
         currentWall++;
@@ -62,6 +51,21 @@ public class WallManager : MonoBehaviour
         }
         ChangeWall();
         Debug.Log("leftPush");
+    }
+
+    //Lockerのダイヤル画面でBackボタンを押したら、
+    //元のLockerの画面に戻したい。
+    /// <summary>
+    /// いつ：backボタンを押したとき
+    /// 処理：ロッカーの画面に戻したい。
+    /// </summary>
+    public void OnBackButton()
+    {
+        Debug.Log("バックボタン");
+        wallButtons[left].SetActive(true);
+        wallButtons[right].SetActive(true);
+        wallButtons[back].SetActive(false);
+        wall.transform.localPosition = new Vector3(-1000, 0);
     }
 
     void ChangeWall()
