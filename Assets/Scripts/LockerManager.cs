@@ -14,6 +14,7 @@ public class LockerManager : MonoBehaviour
     public const int left = 0;
     public const int right = 1;
     public const int back = 2;
+    public bool isClear = false;
 
     //ロッカーの鍵に当たり判定をつけて
     //いつ：ロッカー鍵付近をクリックした時
@@ -38,7 +39,6 @@ public class LockerManager : MonoBehaviour
         {　　　
             if (hit.collider.gameObject.name == this.name)
             {
-                Debug.Log("Lockerのダイヤルに当たった。");
                 //ロッカーをアップにしたとき、
                 //WallManagerのZOOM型の値をLockerDialにしたい。
 
@@ -68,30 +68,84 @@ public class LockerManager : MonoBehaviour
         Mouse,
         Cat,
         Dog,
+        Max
     }
 
-    Dial currentDial = Dial.Dog;
-    public void OnDialButton(int index)
+    //マーク変数をボタンそれぞれ分用意する。
+    Dial leftDialMark = Dial.Dog;
+    Dial middleDialMark = Dial.Dog;
+    Dial rightDialMark = Dial.Dog;
+
+    public void OnDialButton(int position)
     {
-        Debug.Log(index + "dialPush!!");
-        currentDial++;
-        if(currentDial > Dial.Dog)
+        //currentDial++; ここでマーク変数を変更するのではなく、
+        //新たにマーク変数を変更用の関数を作る。
+        ChangeDialMark(position);
+        ShowDialImage(position);
+        CheckDialButton();
+    }
+
+    void ChangeDialMark(int position)
+    {
+        const int left = 0;
+        const int middle = 1;
+        const int right = 2;
+
+        //マーク変数の値を変更する
+        switch (position)
         {
-            currentDial = Dial.Boar;
+            case left:
+                leftDialMark++;
+                if (leftDialMark >= Dial.Max)
+                {
+                    leftDialMark = Dial.Boar;
+                }
+                break;
+            case middle:
+                middleDialMark++;
+                if (middleDialMark >= Dial.Max)
+                {
+                    middleDialMark = Dial.Boar;
+                }
+                break;
+            case right:
+                rightDialMark++;
+                if (rightDialMark >= Dial.Max)
+                {
+                    rightDialMark = Dial.Boar;
+                }
+                break;
         }
-
-        ChangeDialButton(index);
     }
 
-    void ChangeDialButton(int index)
+    void ShowDialImage(int position)
     {
-        dials[index].sprite = GetDialImage();
+        const int left = 0;
+        const int middle = 1;
+        const int right = 2;
+
+        //マーク変数の値を変更する
+        //ポイントはマーク変数をボタン分、用意することだった。
+        //そうすればボタン事の画像を取得できる。
+        switch (position)
+        {
+            case left:
+                dials[left].sprite = GetDialImage(leftDialMark);
+                break;
+            case middle:
+                dials[middle].sprite = GetDialImage(middleDialMark);
+                break;
+            case right:
+                dials[right].sprite = GetDialImage(rightDialMark);
+                break;
+        }
     }
 
-    //マーク変数の値によって
-    //返す画像を決める。
-    Sprite GetDialImage()
+    Sprite GetDialImage(Dial currentDial)
     {
+        int index = (int)currentDial;
+        return changeDials[index];
+        /*
         switch (currentDial)
         {
             case Dial.Boar:
@@ -106,11 +160,35 @@ public class LockerManager : MonoBehaviour
             case Dial.Dog:
                 return changeDials[3];
                 break;
-        }
-        return null;
+        }*/
+        //return null;
     }
 
+    //現在の画像が変更後、正解の画像かどうかチェック
+    //
+    void CheckDialButton()
+    {
+        if(dials[0].sprite == changeDials[0] &&
+           dials[1].sprite == changeDials[1] &&
+           dials[2].sprite == changeDials[2])
+        {
+            Debug.Log("DialClear!!!");
+            isClear = true;
+        }
+    }
 
-
+    //マーク変数の値によって
+    //返す画像を決める。
     
+    //Dialの画像の順番が正解か判定したい。
+    //→並び順の正解を作っておいて、
+    //現在の画像と照らし合わせ、合っているなら、
+    //条件クリアにする。
+
+    //現在の画像の順番が、
+    //左から、ねずみ、ねこ、いのしし
+    //この順番の最初と最後は干支の順位
+    //ねこは干支レースに参加できなかった動物
+
+
 }

@@ -39,7 +39,6 @@ public class WallManager : MonoBehaviour
             currentWall = WALL.Front;
         }
         ChangeWall();
-        Debug.Log("push");
     }
 
     public void OnLeftButton()
@@ -50,7 +49,6 @@ public class WallManager : MonoBehaviour
             currentWall = WALL.Left;
         }
         ChangeWall();
-        Debug.Log("leftPush");
     }
 
     //Lockerのダイヤル画面でBackボタンを押したら、
@@ -61,7 +59,6 @@ public class WallManager : MonoBehaviour
     /// </summary>
     public void OnBackButton()
     {
-        Debug.Log("バックボタン");
         wallButtons[left].SetActive(true);
         wallButtons[right].SetActive(true);
         wallButtons[back].SetActive(false);
