@@ -20,16 +20,6 @@ public class WallManager : MonoBehaviour
     }
     WALL currentWall = WALL.Front;
 
-    //ロッカーの以外にも画面をアップする
-    //場合があるかもしれないから、
-    //transform.localPositionを
-    //enum型で場合わけしておいた方がいい？
-
-    public enum ZOOM
-    {
-        
-    }
-
 
     public void OnRightButton()
     {
@@ -51,12 +41,6 @@ public class WallManager : MonoBehaviour
         ChangeWall();
     }
 
-    //Lockerのダイヤル画面でBackボタンを押したら、
-    //元のLockerの画面に戻したい。
-    /// <summary>
-    /// いつ：backボタンを押したとき
-    /// 処理：ロッカーの画面に戻したい。
-    /// </summary>
     public void OnBackButton()
     {
         wallButtons[left].SetActive(true);

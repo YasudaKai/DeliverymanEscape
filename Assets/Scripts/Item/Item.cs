@@ -14,28 +14,34 @@ public class Item : MonoBehaviour
     //DisPlayBoxItem関数で使用
 
     public ItemBox itemBox;
+    bool hasItem;
 
     public enum Type 
     {
         Key,
         Leaf,
+        Max
     }
 
     public Type type;
+
+    private void Start()
+    {
+        //既に取得しているなら非表示
+        hasItem = SaveManager.instance.GetItemFlag(type);
+        if(hasItem == true)
+        {
+            gameObject.SetActive(false);
+            //アイテムボックスに表示
+            itemBox.DisplayBoxItem(type);
+        }
+    }
 
     public void OnClick()
     {
         Debug.Log(type + "を取得");
         gameObject.SetActive(false);
         itemBox.DisplayBoxItem(type);
+        SaveManager.instance.SetItemFlag(type, true);
     }
-
-    //画面上のアイテムを取得したときに
-    //アイテムボックスのアイテムを表示したい。
-    //アイテムのtypeの値によって、
-    //表示させるアイテムを決めて表示。
-
-    
-
-    
 }

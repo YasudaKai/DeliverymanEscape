@@ -8,7 +8,6 @@ public class ItemBox : MonoBehaviour
     public GameObject[] boxItems;
 
    
-   
     public void DisplayBoxItem(Item.Type type)
     {
         int index = (int)type;
