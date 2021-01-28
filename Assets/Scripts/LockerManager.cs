@@ -18,6 +18,21 @@ public class LockerManager : MonoBehaviour
     public const int back = 2;
     public bool isClear = false;
 
+    private void Start()
+    {
+        bool openFlag = SaveManager.instance.GetFlag(SaveManager.Flag.OpenLocker);
+        if(openFlag == true)
+        {
+            locker.SetActive(false);
+            openLocker.SetActive(true);
+        }
+        else
+        {
+            locker.SetActive(true);
+            openLocker.SetActive(false);
+        }
+    }
+
     public void OnLockerButton()
     {
         Vector3 wPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -28,8 +43,8 @@ public class LockerManager : MonoBehaviour
         //そこからどの方向ににRayをあてるか
 
         if (hit)
-        {　　　
-            if (hit.collider.gameObject.name == this.name)
+        {
+            if (hit.collider.gameObject == locker)
             {
                 wall.transform.localPosition = new Vector3(-1000, 1500);
                 wallButtons[left].SetActive(false);
@@ -56,7 +71,7 @@ public class LockerManager : MonoBehaviour
     public void OnDialButton(int position)
     {
         //currentDial++; ここでマーク変数を変更するのではなく、
-        //新たにマーク変数を変更用の関数を作る。
+        //新たにマーク変数の変更用の関数を作る。
         ChangeDialMark(position);
         ShowDialImage(position);
         CheckDialButton();
@@ -125,10 +140,11 @@ public class LockerManager : MonoBehaviour
            dials[1].sprite == changeDials[1] &&
            dials[2].sprite == changeDials[2])
         {
-            Debug.Log("DialClear!!!");
             isClear = true;
             locker.SetActive(false);
             openLocker.SetActive(true);
+            //ロッカーが開いたらフラグをセットしてセーブ
+            SaveManager.instance.SetFlag(SaveManager.Flag.OpenLocker, true);
         }
     }
 }

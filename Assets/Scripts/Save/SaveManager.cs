@@ -7,6 +7,12 @@ public class SaveManager : MonoBehaviour
     const string SAVE_KEY = "SAVE_DATA";
     SaveData saveData = new SaveData();
 
+    public enum Flag
+    {
+        OpenLocker,
+        Max,
+    }
+
     //★セーブ機能の実装
     //JsonUtility →　PlayerPrefs
     //JsonUtility
@@ -33,7 +39,7 @@ public class SaveManager : MonoBehaviour
     {
         string json = JsonUtility.ToJson(saveData);
         PlayerPrefs.SetString(SAVE_KEY, json);
-        Debug.Log(json);
+        //Debug.Log(json);
     }
 
     //Load関数
@@ -43,6 +49,7 @@ public class SaveManager : MonoBehaviour
         {
             //保存データのjsonを取得する
             string json = PlayerPrefs.GetString(SAVE_KEY);
+            //Debug.Log(json);
             //jsonからセーブデータを復元する
             saveData = JsonUtility.FromJson<SaveData>(json);
         }
@@ -63,11 +70,23 @@ public class SaveManager : MonoBehaviour
     {
         return saveData.getItemFlag[(int)flag];
     }
+
+    public void SetFlag(Flag flag, bool value)
+    {
+        saveData.flags[(int)flag] = value;
+        Save();
+    }
+
+    public bool GetFlag(Flag flag)
+    {
+        return saveData.flags[(int)flag];
+    }
 }
 
 public class SaveData
 {
     //bool型の初期値はfalseになる
-    public bool[] flags = new bool[3];
+    //public bool[] flags = new bool[3];
     public bool[] getItemFlag = new bool[(int)Item.Type.Max];
+    public bool[] flags = new bool[(int)SaveManager.Flag.Max];
 }
